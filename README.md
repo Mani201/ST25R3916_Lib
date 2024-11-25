@@ -44,20 +44,19 @@ This library is a wrapper that enables easy use of the ST25R3916 NFC reader chip
 ## 📦 Installation & Setup
 
 ### Initialization Structure
-typedef struct {
-    /* SPI Configuration */
-    SPI_HandleTypeDef    *spi;               // SPI communication handler
-    
+typedef struct { /* SPI Configuration */ 
+    SPI_HandleTypeDef *spi;          // SPI communication handler
+
     /* GPIO Configuration */
-    GPIO_TypeDef         *cs_port;           // Chip Select GPIO port
-    GPIO_TypeDef         *nfc_irq_port;      // Interrupt GPIO port
-    uint16_t             cs_pin;             // Chip Select pin number
-    uint16_t             nfc_irq_pin;        // Interrupt pin number
-    
+    GPIO_TypeDef     *cs_port;       // Chip Select GPIO port
+    GPIO_TypeDef     *nfc_irq_port;  // Interrupt GPIO port
+    uint16_t         cs_pin;         // Chip Select pin number
+    uint16_t         nfc_irq_pin;    // Interrupt pin number
+
     /* Interrupt Configuration */
-    EXTI_HandleTypeDef   HandleType;         // External interrupt handler
-    uint32_t             LINENum;            // External interrupt line number
-    IRQn_Type            IRQn;               // Interrupt number
+    EXTI_HandleTypeDef HandleType;    // External interrupt handler
+    uint32_t          LINENum;        // External interrupt line number
+    IRQn_Type         IRQn;           // Interrupt number
 } NFC_Lib_Init;
 ## 🚀 Usage
 
