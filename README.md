@@ -45,59 +45,76 @@ This library is a wrapper that enables easy use of the ST25R3916 NFC reader chip
 
 ### Initialization Structure
 
-c
 typedef struct {
-SPI_HandleTypeDef spi; // SPI communication handler
-GPIO_TypeDef cs_port; // Chip Select GPIO port
-GPIO_TypeDef nfc_irq_port; // Interrupt GPIO port
-EXTI_HandleTypeDef HandleType; // External interrupt handler
-uint32_t LINENum; // External interrupt line number
-uint16_t cs_pin; // Chip Select pin number
-uint16_t nfc_irq_pin; // Interrupt pin number
-IRQn_Type IRQn; // Interrupt number
+    /* SPI Configuration */
+    SPI_HandleTypeDef    *spi;               // SPI communication handler
+    
+    /* GPIO Configuration */
+    GPIO_TypeDef        *cs_port;            // Chip Select GPIO port
+    GPIO_TypeDef        *nfc_irq_port;       // Interrupt GPIO port
+    uint16_t            cs_pin;              // Chip Select pin number
+    uint16_t            nfc_irq_pin;         // Interrupt pin number
+    
+    /* Interrupt Configuration */
+    EXTI_HandleTypeDef   HandleType;         // External interrupt handler
+    uint32_t            LINENum;             // External interrupt line number
+    IRQn_Type           IRQn;                // Interrupt number
 } NFC_Lib_Init;
 
 ## 🚀 Usage
 
 ### 1. Include required header file
 
-c
+/* Include NFC initialization header */
 #include "nfc_init.h"
 
 ### 2. Initialize structure setup
 
-c
-NFC_Lib_Init main_nfc_init;
-main_nfc_init.spi = &hspi3;
-main_nfc_init.cs_port = RFID_SDA_GPIO_Port;
-main_nfc_init.cs_pin = RFID_SDA_Pin;
-main_nfc_init.nfc_irq_port = RFID_IRQ_GPIO_Port;
-main_nfc_init.nfc_irq_pin = RFID_IRQ_Pin;
-main_nfc_init.IRQn = EXTI1_IRQn;
-main_nfc_init.LINENum = EXTI_LINE_1;
-
+/* Initialize NFC configuration structure */
+NFC_Lib_Init main_nfc_init = {
+    /* SPI Configuration */
+    .spi            = &hspi3,
+    
+    /* GPIO Configuration */
+    .cs_port        = RFID_SDA_GPIO_Port,
+    .cs_pin         = RFID_SDA_Pin,
+    .nfc_irq_port   = RFID_IRQ_GPIO_Port,
+    .nfc_irq_pin    = RFID_IRQ_Pin,
+    
+    /* Interrupt Configuration */
+    .IRQn           = EXTI1_IRQn,
+    .LINENum        = EXTI_LINE_1
+};
 ### 3. Library initialization and execution
 
-c
+/* Initialize NFC library */
 init_nfc_lib(&main_nfc_init);
+
+/* Main processing loop */
 while(1) {
-nfc_Cycle();
+    nfc_Cycle();    // Process NFC operations
 }
 
 ### 4. ST25R3916/3916B switching method
 
-c
-// NFC_lib/RTE_Components.h
+/* NFC_lib/RTE_Components.h */
+
+/* Feature Configuration */
 #define USE_NFC06A1
 #define LIB_RFAL_CUSTOM
 #define USE_SPI
 #define NFC06A1_POLLING_TAG_DETECT
 #define USE_RFAL_FEATURE_LISTEN_MODE
 #define USE_RFAL_FEATURE_NFCV
-#ifndef ST25R3916 //Use ST25R3916
-#define ST25R3916
-#ifndef ST25R3916B //Use ST25R3916B
-#define ST25R3916B
+
+/* Chip Selection */
+#ifndef ST25R3916      // ST25R3916 Configuration
+    #define ST25R3916
+#endif
+
+#ifndef ST25R3916B     // ST25R3916B Configuration
+    #define ST25R3916B
+#endif
 
 ## 📚 API Reference
 
